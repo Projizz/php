@@ -1,28 +1,174 @@
 <?php
+session_start();
+  // require composer autoload (load all my libraries)
 require 'vendor/autoload.php';
 
-$app = new \Slim\Slim();
+  // require my models
+require 'models/User.php';
+require 'models/Project.php';
 
-$app->get('/', function () {
-    echo "Coucou!";
+  // Slim initialisation
+$app = new \Slim\Slim(array(
+    'view' => '\Slim\LayoutView', // I activate slim layout component
+    'layout' => 'layouts/main.php' // I define my main layout
+    ));
+
+  // hook before.router, now $app is accessible in my views
+$app->hook('slim.before.router', function () use ($app) {
+  $app->view()->setData('app', $app);
 });
 
-$app->get('/foo', function () {
-    echo "Foo!";
-});
+  // views initiatilisation
+$view = $app->view();
+$view->setTemplatesDirectory('views');
+
+  // GET /
+  // $app->get('/', function() use ($app) {
+  //   $books = Book::all();
+  //   $root_path = $app->urlFor('root');
+  //   $app->render( 
+  //     'books/index.php', 
+  //     array( 
+  //       "books" => $books,
+  //       "root_path" => $root_path
+  //     ) 
+  //   );
+  // })->name('root'); // named route so I can use with "urlFor" method
+
+  // GET /books/:book_id
+  // $app->get('/books/:book_id', function ($book_id) use ($app) {
+  //   $book = Book::getBook($book_id);
+  //   $app->render(
+  //     'books/show.php', 
+  //     array("book" => $book)
+  //   );
+  // })->name('book'); // named route so I can use with "urlFor" method
+
+ // GET /books/:book_id
+$app->get('/', function () use ($app) {
+  $app->render(
+    'users/accueil.php'
+    );
+  })->name('accueil'); // named route so I can use with "urlFor" method
+
+//==== CONNEXION =====
+$app->get('/signup', function () use ($app) {
+  $app->render(
+    'users/signup.php'
+    );
+})->name('signup'); 
+
+
+$app->post('/signup', function () use ($app) {
+    //var_dump($_POST);
+  session_destroy();
+
+  $isconnected = User::connect_user($_POST['mail'], $_POST['pass']);
+
+  if ($isconnected){
+    $app->redirect($app->urlFor('projects'));
+  }
+  else{
+  $app->flash('erreur', 'Vous ne remplissez pas les conditions requises');
+   $app->render(
+    'users/signup.php',
+    array("isconnected" => $isconnected)
+    );
+   
+ }
+})->name('signup_post');
+
+$app->get('/site', function () use ($app) {
+
+  $app->render(
+    'users/site.php'
+    );
+  $user = Project::display_project();
+})->name('site'); 
+
+
+//==== INSCRIPTION =====
+$app->get('/signin', function () use ($app) {
+  $app->render(
+    'users/signin.php'
+    );
+})->name('signin'); 
+
+$app->post('/signin', function () use ($app) {
+
+  $user = User::create_user($_POST['mail'], $_POST['pass'],$_POST['last_name'], $_POST['first_name']);
+  $app->render(
+    'users/signin.php',
+    array("user" => $user)
+    );
+  $app->redirect('./next');
+})->name('signin_post');
+
+
+
+$app->get('/next', function () use ($app) {
+  $app->render(
+    'users/next.php'
+    );
+})->name('next'); 
+
+$app->post('/next', function () use ($app) {
+// var_dump($_POST);
+  $user = User::updateUser($_POST['city'], $_POST['avaibility'],$_POST['furnitures'], $_POST['interests']);
+  $app->render(
+    'users/next.php',
+    array("user" => $user)
+    );
+  $app->redirect('./site');
+})->name('next_post');
+
+
+
+$app->get('/projects', function () use ($app) {
+  $app->render(
+    'users/projects.php'
+    );
+  $user = Project::display_my_project();
+})->name('projects'); 
+
+
+
+
+
+
+
+$app->get('/createproject', function () use ($app) {
+  $app->render(
+    'users/createprojects.php'
+    );
+})->name('createproject'); 
+
+
+$app->post('/createproject', function () use ($app) {
+    //var_dump($_POST);
+
+  $user = Project::create_project($_POST['title'], $_POST['monney'], $_POST['description'], $_POST['type'], $_POST['city'], $_POST['urgency']);
+  $app->render(
+    'users/createprojects.php',
+    array("user" => $user)
+    );
+  $app->redirect('./site');
+})->name('createproject_post');
+
+
+
+
+
+// ==== ACCUEIL ====
+
+  // $app->get('/site', function () use ($app) {
+  //   $user = User::getUser();
+  //   $app->render(
+  //     'users/site.php'
+  //   );
+  // })->name('site'); 
+
+
+
+  // always need to be at the bottom of this file !
 $app->run();
-
-
-session_start();
- 
-include_once('modele/connexion_bdd.php');
-
-
-if (!isset($_GET['section']) OR $_GET['section'] == 'index')
-{
-    include_once('controleur/site/index.php');
-}
-else
-{
-	include_once('controleur/site/'.$_GET['section'].'.php');
-}

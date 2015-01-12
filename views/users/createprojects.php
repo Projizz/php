@@ -41,7 +41,7 @@
               <option name="monney" value="remunerer">R&eacute;mun&eacute;rer</option>
             </select>
           </div></br>
-          <input type="hidden" name="id_user_pro3ject" value="<?php echo($_SESSION["id"]); ?>">
+          <input type="hidden" name="id_user_project" value="<?php echo($_SESSION["id"]); ?>">
           <button type="submit" class="btn btn-default">Creer Project</button>
         </form>
         </div>

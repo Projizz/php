@@ -78,6 +78,7 @@ $app->post('/signup', function () use ($app) {
  }
 })->name('signup_post');
 
+// Affichage de tous les projet
 $app->get('/site', function() use ($app) {
     // $app->flashNow('success', "C'est très bien !");
     $projects = Project::display_project();
@@ -88,6 +89,16 @@ $app->get('/site', function() use ($app) {
       ) 
     );
      })->name('site');
+// Rejoindre projet
+$app->post('/site', function () use ($app) {
+  $project = Project::join_project($_POST['id_project'], $_POST['id_user']);
+  $app->render(
+    'users/site.php',
+    array("project" => $project)
+    );
+  $app->redirect($app->urlFor('projects'));
+})->name('site_post');
+
 
 //==== INSCRIPTION =====
 $app->get('/signin', function () use ($app) {
@@ -124,7 +135,7 @@ $app->post('/next', function () use ($app) {
   $app->redirect('./site');
 })->name('next_post');
 
-
+//projet de l'utilisateur
 $app->get('/projects', function () use ($app) {
   $projects = Project::display_my_project();
   $app->render(
@@ -135,7 +146,7 @@ $app->get('/projects', function () use ($app) {
     );
 })->name('projects'); 
 
-
+//creer un projet
 $app->get('/createproject', function () use ($app) {
   $app->render(
     'users/createprojects.php'

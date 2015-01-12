@@ -43,7 +43,12 @@
       </div>
     <div>Description : 
         <?php echo $projects['description'] ?>
-    </div></div></br>
+    </div>
+  <form method="POST" id="form" >
+            <input type="hidden" value="<?php echo $projects['id']?>" name="id_project">
+            <input type="hidden" name="id_user" value="<?php echo($_SESSION["id"]); ?>">
+            <input type="submit" value="rejoindre" name="rejoindre" class="btn btn-default">
+          </form></div></br>
   <?php endforeach; ?>
 </div>
          

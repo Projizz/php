@@ -78,14 +78,16 @@ $app->post('/signup', function () use ($app) {
  }
 })->name('signup_post');
 
-$app->get('/site', function () use ($app) {
-
-  $app->render(
-    'users/site.php'
+$app->get('/site', function() use ($app) {
+    // $app->flashNow('success', "C'est très bien !");
+    $projects = Project::display_project();
+    $app->render( 
+      'users/site.php', 
+      array( 
+        "projects" => $projects
+      ) 
     );
-  $user = Project::display_project();
-})->name('site'); 
-
+     })->name('site');
 
 //==== INSCRIPTION =====
 $app->get('/signin', function () use ($app) {
@@ -123,18 +125,15 @@ $app->post('/next', function () use ($app) {
 })->name('next_post');
 
 
-
 $app->get('/projects', function () use ($app) {
+  $projects = Project::display_my_project();
   $app->render(
-    'users/projects.php'
+    'users/projects.php',
+    array( 
+        "projects" => $projects
+      )
     );
-  $user = Project::display_my_project();
 })->name('projects'); 
-
-
-
-
-
 
 
 $app->get('/createproject', function () use ($app) {

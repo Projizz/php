@@ -64,34 +64,32 @@ static function update_project($choixproject ,$title_ins, $type_ins, $urgency_in
 
 static function display_project(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  $res= "SELECT * FROM projects";
+  if (!isset($_GET['type'])) {
+    $_GET['type']="non_selected";
+  }
+  if ($_GET['type']=="non_selected") {
+    $res= "SELECT * FROM projects";
+  }
+  else{
+  $res= "SELECT * FROM projects WHERE type= '".$_GET['type']."'";
+}
   $prepa=$bdd->prepare($res);
   $exec=$prepa->execute(); 
-
-  while ($mes_donnees = $prepa->fetch()) {
-          echo '<div class="container"><div>Titre : '.$mes_donnees['title'].'</div>';
-          echo '<div>Cat&eacute;gorie : '.$mes_donnees['type'].'</div>';
-          echo '<div>Urgence : ';if ($mes_donnees['urgency']==1) {echo "urgent";}else{echo "non-urgent";}echo'</div>';
-          echo '<div>Ville : '.$mes_donnees['city'].'</div>';
-          echo '<div>R&eacute;mun&eacute;ration : '.$mes_donnees['monney'].'</div>';
-          echo '<div>Description : '.$mes_donnees['description'].'</div></div></br>';
-        }     
+$mes_donnees=$prepa->fetchAll();
+          return $mes_donnees;    
 }
+
+
+
 
 static function display_my_project(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
   $res= "SELECT * FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' ";
   $prepa=$bdd->prepare($res);
   $exec=$prepa->execute(); 
-
-  while ($mes_donnees = $prepa->fetch()) {
-          echo '<div class="container"><div>Titre : '.$mes_donnees['title'].'</div>';
-          echo '<div>Cat&eacute;gorie : '.$mes_donnees['type'].'</div>';
-          echo '<div>Urgence : ';if ($mes_donnees['urgency']==1) {echo "urgent";}else{echo "non-urgent";}echo'</div>';
-          echo '<div>Ville : '.$mes_donnees['city'].'</div>';
-          echo '<div>R&eacute;mun&eacute;ration : '.$mes_donnees['monney'].'</div>';
-          echo '<div>Description : '.$mes_donnees['description'].'</div></div></br>';
-        }     
+$mes_donnees=$prepa->fetchAll();
+          return $mes_donnees; 
+      
 }
 
 }

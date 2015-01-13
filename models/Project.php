@@ -92,12 +92,28 @@ $mes_donnees=$prepa->fetchAll();
 return $mes_donnees;    
 }
 
+static function display_projectjoined(){
+  $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+  if (!isset($_GET['validate'])) {$_GET['validate']=0;}
+  if ($_GET['validate']==0) {
+   $res= "SELECT * FROM projects WHERE id IN (SELECT project_id FROM projects_users WHERE user_id='".$_SESSION["id"]."'AND validation=0 AND leader=0 )";
+
+ }
+ else{
+  $res= "SELECT * FROM projects WHERE id IN (SELECT project_id FROM projects_users WHERE user_id='".$_SESSION["id"]."'AND validation=1 AND leader=0 )";
+}
+$prepa=$bdd->prepare($res);
+$exec=$prepa->execute(); 
+$mes_donnees=$prepa->fetchAll();
+
+return $mes_donnees;    
+}
 
 
 
 static function display_my_project(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  $res= "SELECT * FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' ";
+  $res= "SELECT * FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' AND leader=1 ";
   $prepa=$bdd->prepare($res);
   $exec=$prepa->execute(); 
   $mes_donnees=$prepa->fetchAll();

@@ -78,6 +78,9 @@ $app->post('/signup', function () use ($app) {
  }
 })->name('signup_post');
 
+
+
+
 // Affichage de tous les projet
 $app->get('/site', function() use ($app) {
     // $app->flashNow('success', "C'est très bien !");
@@ -165,8 +168,28 @@ $app->post('/createproject', function () use ($app) {
   $app->redirect('./site');
 })->name('createproject_post');
 
+// Affichage de tous les projet Rejoins
+$app->get('/projectjoined', function() use ($app) {
+    // $app->flashNow('success', "C'est très bien !");
+    $projects = Project::display_projectjoined();
+    $app->render( 
+      'users/projectjoined.php', 
+      array( 
+        "projects" => $projects
+      ) 
+    );
+     })->name('projectjoined');
 
-
+$app->get('/demandeprojectjoined', function() use ($app) {
+    // $app->flashNow('success', "C'est très bien !");
+    $projects = Project::display_demandeprojectjoined();
+    $app->render( 
+      'users/demandeprojectjoined.php', 
+      array( 
+        "projects" => $projects
+      ) 
+    );
+     })->name('demandeprojectjoined');
 
 
 // ==== ACCUEIL ====

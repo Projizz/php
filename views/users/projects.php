@@ -5,6 +5,12 @@
         <div class="col-md-6 col-md-offset-3">
          <a href="<?php echo $app->urlFor('site'); ?>"> <input type="button" class="btn btn-default" value="All Project"/></a>
         </div>
+        <div class="col-md-6 col-md-offset-3">
+         <a href="<?php echo $app->urlFor('projectjoined'); ?>"> <input type="button" class="btn btn-default" value="Project Joined"/></a>
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+         <a href="<?php echo $app->urlFor('demandeprojectjoined'); ?>"> <input type="button" class="btn btn-default" value="Demande d'ajout"/></a>
+        </div>
       </div>
 
  <div class="project_display">

@@ -42,9 +42,9 @@
         <?php echo $projects['monney'] ?>
       </div>
     <div>Description : 
-        <?php echo $projects['description'] ?>
+        <?php echo $projects['id'] ?>
     </div>
-  <form method="POST" id="form" action="<?php echo $app->urlFor('site_post') ; ?>">
+  <form method="POST" id="form" action="?type=non_selected">
             <input type="hidden" value="<?php echo $projects['id']?>" name="id_project">
             <input type="hidden" name="id_user" value="<?php echo($_SESSION["id"]); ?>">
             <input type="submit" value="rejoindre" name="rejoindre" class="btn btn-default">

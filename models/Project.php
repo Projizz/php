@@ -43,7 +43,7 @@ static function create_project($title_ins, $type_ins, $urgency_ins, $city_ins, $
     $columns = $res->execute();
     $columns = $res->fetch();
     
-$result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader) Values ("'.intval($columns["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
+$result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($columns["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
     $columns = $result->execute();
     $columns = $result->fetch(); 
   }
@@ -96,7 +96,7 @@ $mes_donnees=$prepa->fetchAll();
 static function join_project($id_user, $id_project) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
   if (isset($_POST["id_user"]) && isset($_POST["id_project"])){
-    var_dump($id_project);
+    var_dump($_POST["id_project"]);
     
 $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.$_POST["id_project"].'","'.$_POST["id_user"].'",0,0)'); 
     $columns = $result->execute();

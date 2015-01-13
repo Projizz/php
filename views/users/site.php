@@ -44,7 +44,7 @@
     <div>Description : 
         <?php echo $projects['description'] ?>
     </div>
-  <form method="POST" id="form" >
+  <form method="POST" id="form" action="<?php echo $app->urlFor('site_post') ; ?>">
             <input type="hidden" value="<?php echo $projects['id']?>" name="id_project">
             <input type="hidden" name="id_user" value="<?php echo($_SESSION["id"]); ?>">
             <input type="submit" value="rejoindre" name="rejoindre" class="btn btn-default">

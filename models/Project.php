@@ -121,6 +121,16 @@ static function display_demandeprojectjoined(){
 return $mes_donnees;    
 }
 
+static function validate_project($project_id ,$user_id) {
+  $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+  if (isset($_POST["demande_project_id"]) && isset($_POST["user_id_demande"])){
+    $result = $bdd->prepare('UPDATE projects_users SET validation=1 WHERE user_id= "'.$_POST['user_id_demande'].'" AND project_id="'.$_POST["demande_project_id"].'" '); 
+    $columns = $result->execute();
+    $columns = $result->fetch(); 
+
+  }
+}
+
 
 static function display_my_project(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');

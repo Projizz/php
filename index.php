@@ -191,6 +191,14 @@ $app->get('/demandeprojectjoined', function() use ($app) {
     );
      })->name('demandeprojectjoined');
 
+$app->post('/demandeprojectjoined', function () use ($app) {
+  $project = Project::validate_project($_POST['demande_project_id'], $_POST['user_id_demande']);
+  $app->render(
+    'users/demandeprojectjoined.php',
+    array("project" => $project)
+    );
+  $app->redirect($app->urlFor('site'));
+})->name('demandeprojectjoined_post');
 
 // ==== ACCUEIL ====
 

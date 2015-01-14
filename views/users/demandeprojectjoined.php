@@ -31,9 +31,9 @@
     <div>Interests : 
         <?php echo $projects['interests'] ?>
     </div>
-    <form method="POST" id="form" action="?type=non_selected">
-            <input type="hidden" value="<?php echo $projects['id']?>" name="id_project">
-            <input type="hidden" name="id_user" value="<?php echo($_SESSION["id"]); ?>">
+    <form method="POST" id="form" action="">
+            <input type="hidden" value="<?php echo $projects['user_id']?>" name="user_id_demande">
+            <input type="hidden" name="demande_project_id" value="<?php echo $projects['project_id'] ?>">
             <input type="submit" value="valider" name="valider" class="btn btn-default">
           </form></div></br>
   </br>

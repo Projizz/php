@@ -113,6 +113,21 @@ $mes_donnees=$prepa->fetchAll();
 return $mes_donnees;    
 }
 
+static function display_useradded(){
+  $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+  if (!isset($_GET['project_id'])) {
+     $res= "SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id IN (SELECT p.id FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' AND leader=1) AND leader=0 AND validation=1";
+  }
+  else{
+   $res="SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id ='".$_GET['project_id']."' AND leader=0 AND validation=1 ";
+ }
+$prepa=$bdd->prepare($res);
+$exec=$prepa->execute(); 
+$mes_donnees=$prepa->fetchAll();
+
+return $mes_donnees;    
+}
+
 static function display_demandeprojectjoined(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root',''); 
  

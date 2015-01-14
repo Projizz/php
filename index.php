@@ -149,6 +149,25 @@ $app->get('/projects', function () use ($app) {
     );
 })->name('projects'); 
 
+
+    //var_dump($_POST);
+$app->get('/userAdded', function () use ($app) {
+  $projects = Project::display_my_project();
+  $users = Project::display_useradded();
+  $app->render(
+    'users/userprojectadded.php',
+    array( "projects" => $projects, "users"=> $users)
+    );
+})->name('userprojectadded');
+
+$app->post('/userAdded', function () use ($app) {
+  $user = Project::delete_user($_POST['user_id']);
+  $app->render(
+    'users/userprojectadded.php',
+    array("user" => $user)
+    );
+})->name('userprojectadded_post');
+
 //creer un projet
 $app->get('/createproject', function () use ($app) {
   $app->render(

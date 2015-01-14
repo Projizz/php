@@ -1,7 +1,7 @@
  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
  <script type="text/javascript" src="scripts/fonctions.js"></script>
  <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="ligne_button">
          <a href="<?php echo $app->urlFor('projects'); ?>"> <input type="button" class="btn btn-default" value="My Projects"/></a>
         </div>
       </div>

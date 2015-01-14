@@ -1,17 +1,17 @@
  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="ligne_button">
        <a href="<?php echo $app->urlFor('createproject'); ?>"> <input type="button" class="btn btn-default" value="Create Project"/></a>
    </div>
-   <div class="col-md-6 col-md-offset-3">
+   <div class="ligne_button">
        <a href="<?php echo $app->urlFor('site'); ?>"> <input type="button" class="btn btn-default" value="All The Project"/></a>
    </div>
-   <div class="col-md-6 col-md-offset-3">
+   <div class="ligne_button">
        <a href="<?php echo $app->urlFor('projectjoined'); ?>"> <input type="button" class="btn btn-default" value="Project Joined"/></a>
    </div>
-   <div class="col-md-6 col-md-offset-3">
+   <div class="ligne_button">
        <a href="<?php echo $app->urlFor('demandeprojectjoined'); ?>"> <input type="button" class="btn btn-default" value="Add Request"/></a>
    </div>
-   <div class="col-md-6 col-md-offset-3">
+   <div class="ligne_button">
        <a href="<?php echo $app->urlFor('userprojectadded'); ?>"> <input type="button" class="btn btn-default" value="User Added"/></a>
    </div>
 </div>

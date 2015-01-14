@@ -22,77 +22,50 @@ $app->hook('slim.before.router', function () use ($app) {
 $view = $app->view();
 $view->setTemplatesDirectory('views');
 
-  // GET /
-  // $app->get('/', function() use ($app) {
-  //   $books = Book::all();
-  //   $root_path = $app->urlFor('root');
-  //   $app->render( 
-  //     'books/index.php', 
-  //     array( 
-  //       "books" => $books,
-  //       "root_path" => $root_path
-  //     ) 
-  //   );
-  // })->name('root'); // named route so I can use with "urlFor" method
 
-  // GET /books/:book_id
-  // $app->get('/books/:book_id', function ($book_id) use ($app) {
-  //   $book = Book::getBook($book_id);
-  //   $app->render(
-  //     'books/show.php', 
-  //     array("book" => $book)
-  //   );
-  // })->name('book'); // named route so I can use with "urlFor" method
 
- // GET /books/:book_id
 $app->get('/', function () use ($app) {
   $app->render(
     'users/accueil.php'
     );
   })->name('accueil'); // named route so I can use with "urlFor" method
 
-//==== CONNEXION =====
+//==== AFFICHE PAGE CONNEXION =====
 $app->get('/signup', function () use ($app) {
   $app->render(
     'users/signup.php'
     );
 })->name('signup'); 
-
-
+//==== CONNEXION =====
 $app->post('/signup', function () use ($app) {
-    //var_dump($_POST);
   session_destroy();
-
   $isconnected = User::connect_user($_POST['mail'], $_POST['pass']);
-
   if ($isconnected){
     $app->redirect($app->urlFor('projects'));
   }
   else{
-  $app->flash('erreur', 'Vous ne remplissez pas les conditions requises');
-   $app->render(
-    'users/signup.php',
-    array("isconnected" => $isconnected)
-    );
-   
- }
+    $app->flash('erreur', 'Vous ne remplissez pas les conditions requises');
+    $app->render(
+      'users/signup.php',
+      array("isconnected" => $isconnected)
+      ); 
+  }
 })->name('signup_post');
 
 
 
 
-// Affichage de tous les projet
+// ==== AFFICHE TOUT LES PROJET =====
 $app->get('/site', function() use ($app) {
-    // $app->flashNow('success', "C'est très bien !");
-    $projects = Project::display_project();
-    $app->render( 
-      'users/site.php', 
-      array( 
-        "projects" => $projects
+  $projects = Project::display_project();
+  $app->render( 
+    'users/site.php', 
+    array( 
+      "projects" => $projects
       ) 
     );
-     })->name('site');
-// Rejoindre projet
+})->name('site');
+// ==== REJOINDRE PROJET ====
 $app->post('/site', function () use ($app) {
   $project = Project::join_project($_POST['id_project'], $_POST['id_user']);
   $app->render(
@@ -103,15 +76,14 @@ $app->post('/site', function () use ($app) {
 })->name('site_post');
 
 
-//==== INSCRIPTION =====
+//==== AFFICHE PAGE INSCRIPTION =====
 $app->get('/signin', function () use ($app) {
   $app->render(
     'users/signin.php'
     );
 })->name('signin'); 
-
+// ====  INSCRIPTION ====
 $app->post('/signin', function () use ($app) {
-
   $user = User::create_user($_POST['mail'], $_POST['pass'],$_POST['last_name'], $_POST['first_name']);
   $app->render(
     'users/signin.php',
@@ -121,15 +93,14 @@ $app->post('/signin', function () use ($app) {
 })->name('signin_post');
 
 
-
+// ==== AFFICHE PAGE INSCRIPTION SUITE ====
 $app->get('/next', function () use ($app) {
   $app->render(
     'users/next.php'
     );
 })->name('next'); 
-
+//==== INSCRIPTION SUITE =====
 $app->post('/next', function () use ($app) {
-// var_dump($_POST);
   $user = User::updateUser($_POST['city'], $_POST['avaibility'],$_POST['furnitures'], $_POST['interests']);
   $app->render(
     'users/next.php',
@@ -138,19 +109,20 @@ $app->post('/next', function () use ($app) {
   $app->redirect('./site');
 })->name('next_post');
 
-//projet de l'utilisateur
+
+// ==== Affiche projet de l'utilisateur ====
 $app->get('/projects', function () use ($app) {
   $projects = Project::display_my_project();
   $app->render(
     'users/projects.php',
     array( 
-        "projects" => $projects
+      "projects" => $projects
       )
     );
 })->name('projects'); 
 
 
-    //var_dump($_POST);
+// ==== AFFICHE USER AJOUTE AU PROJET ====
 $app->get('/userAdded', function () use ($app) {
   $projects = Project::display_my_project();
   $users = Project::display_useradded();
@@ -159,7 +131,7 @@ $app->get('/userAdded', function () use ($app) {
     array( "projects" => $projects, "users"=> $users)
     );
 })->name('userprojectadded');
-
+// ==== SUPPRIME USER DU PROJET ====
 $app->post('/userAdded', function () use ($app) {
   $user = Project::delete_user($_POST['user_id']);
   $app->render(
@@ -168,17 +140,15 @@ $app->post('/userAdded', function () use ($app) {
     );
 })->name('userprojectadded_post');
 
-//creer un projet
+
+// ==== AFFICHE CREER PROJET ====
 $app->get('/createproject', function () use ($app) {
   $app->render(
     'users/createprojects.php'
     );
 })->name('createproject'); 
-
-
+// ==== CREER PROJET ====
 $app->post('/createproject', function () use ($app) {
-    //var_dump($_POST);
-
   $user = Project::create_project($_POST['title'], $_POST['monney'], $_POST['description'], $_POST['type'], $_POST['city'], $_POST['urgency']);
   $app->render(
     'users/createprojects.php',
@@ -187,29 +157,31 @@ $app->post('/createproject', function () use ($app) {
   $app->redirect('./site');
 })->name('createproject_post');
 
-// Affichage de tous les projet Rejoins
+
+// ==== AFFICHE TOUS LES PROJET REJOINS ====
 $app->get('/projectjoined', function() use ($app) {
     // $app->flashNow('success', "C'est très bien !");
-    $projects = Project::display_projectjoined();
-    $app->render( 
-      'users/projectjoined.php', 
-      array( 
-        "projects" => $projects
+  $projects = Project::display_projectjoined();
+  $app->render( 
+    'users/projectjoined.php', 
+    array( 
+      "projects" => $projects
       ) 
     );
-     })->name('projectjoined');
+})->name('projectjoined');
 
+
+// ==== AFFICHE DEMANDE D'AJOUT AU PROJET ====
 $app->get('/demandeprojectjoined', function() use ($app) {
-    // $app->flashNow('success', "C'est très bien !");
-    $projects = Project::display_demandeprojectjoined();
-    $app->render( 
-      'users/demandeprojectjoined.php', 
-      array( 
-        "projects" => $projects
+  $projects = Project::display_demandeprojectjoined();
+  $app->render( 
+    'users/demandeprojectjoined.php', 
+    array( 
+      "projects" => $projects
       ) 
     );
-     })->name('demandeprojectjoined');
-
+})->name('demandeprojectjoined');
+// ==== VALIDE DEMANDE D'AJOUT AU PROJET
 $app->post('/demandeprojectjoined', function () use ($app) {
   $project = Project::validate_project($_POST['demande_project_id'], $_POST['user_id_demande']);
   $app->render(
@@ -219,14 +191,7 @@ $app->post('/demandeprojectjoined', function () use ($app) {
   $app->redirect($app->urlFor('site'));
 })->name('demandeprojectjoined_post');
 
-// ==== ACCUEIL ====
 
-  // $app->get('/site', function () use ($app) {
-  //   $user = User::getUser();
-  //   $app->render(
-  //     'users/site.php'
-  //   );
-  // })->name('site'); 
 
 
 

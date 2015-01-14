@@ -99,7 +99,7 @@ $app->post('/site', function () use ($app) {
     'users/site.php',
     array("project" => $project)
     );
-  $app->redirect($app->urlFor('site'));
+  
 })->name('site_post');
 
 

@@ -48,7 +48,11 @@ static function create_project($title_ins, $type_ins, $urgency_ins, $city_ins, $
         $columns = $result->execute();
         $columns = $result->fetch();
 
-        $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($columns["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
+        $result = $bdd->prepare('SELECT id FROM projects WHERE title= "'.$_POST['title'].'" ');
+        $res = $result->execute();
+        $res = $result->fetch();
+
+        $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($res["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
         $columns = $result->execute();
         $columns = $result->fetch(); 
       }else{

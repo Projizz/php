@@ -1,4 +1,3 @@
-
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
         <form class="form-inline text-center" role="form" method="POST" action="" enctype="multipart/form-data">

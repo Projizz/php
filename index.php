@@ -44,7 +44,7 @@ $app->post('/signup', function () use ($app) {
     $app->redirect($app->urlFor('projects'));
   }
   else{
-    $app->flashNow('erreur', 'Vous ne remplissez pas les conditions requises');
+    $app->flashNow('error', 'Vous ne remplissez pas les conditions requises');
     $app->render(
       'users/signup.php',
       array("isconnected" => $isconnected)
@@ -70,7 +70,7 @@ $app->post('/site', function () use ($app) {
   $project = Project::join_project($_POST['id_project'], $_POST['id_user']);
   $projects = Project::display_project();
   if ($project==1){
-    $app->flashNow('success', 'Project Joined ! ');
+    $app->flashNow('success', 'Message sent to the owner ! ');
     $app->render(
     'users/site.php',
     array("projects" => $projects)
@@ -78,7 +78,7 @@ $app->post('/site', function () use ($app) {
   }
   else{
 
-    $app->flashNow('erreur', 'Vous ne remplissez pas les conditions requises');
+    $app->flashNow('error', 'Vous ne remplissez pas les conditions requises');
     $app->render(
     'users/site.php',
     array("projects" => $projects)
@@ -163,14 +163,36 @@ $app->get('/createproject', function () use ($app) {
 })->name('createproject'); 
 // ==== CREER PROJET ====
 $app->post('/createproject', function () use ($app) {
+    
   $user = Project::create_project($_POST['title'], $_POST['monney'], $_POST['description'], $_POST['type'], $_POST['city'], $_POST['urgency']);
-  $app->render(
+  if ($user == 1){
+    $app->flash('success','Your project has been saved');
+     $app->render(
     'users/createprojects.php',
     array("user" => $user)
     );
-  $app->redirect('./site');
+     $app->redirect('./site');
+  }
+  else{
+    if ($user==3){
+      $app->flashNow('error','Please complete all the forms');
+       $app->render(
+    'users/createprojects.php',
+    array("user" => $user)
+    );
+    }
+    elseif ($user==2) {
+      $app->flashNow('error','Title already used');
+      $app->render(
+    'users/createprojects.php',
+    array("user" => $user)
+    );
+    }
+      
+    
+  }
+  
 })->name('createproject_post');
-
 
 // ==== AFFICHE TOUS LES PROJET REJOINS ====
 $app->get('/projectjoined', function() use ($app) {
@@ -197,12 +219,15 @@ $app->get('/demandeprojectjoined', function() use ($app) {
 })->name('demandeprojectjoined');
 // ==== VALIDE DEMANDE D'AJOUT AU PROJET
 $app->post('/demandeprojectjoined', function () use ($app) {
+  $projects = Project::display_demandeprojectjoined();
   $project = Project::validate_project($_POST['demande_project_id'], $_POST['user_id_demande']);
+  if ($project == 1){
+    $app->flashNow('success','User added to your project !');
   $app->render(
     'users/demandeprojectjoined.php',
-    array("project" => $project)
+    array("projects" => $projects)
     );
-  $app->redirect($app->urlFor('site'));
+}
 })->name('demandeprojectjoined_post');
 
 

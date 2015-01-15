@@ -141,6 +141,27 @@ static function connect_user($mail, $pass) {
     }
   }
 
+static function add_skill($choix) {
+   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+     var_dump($_POST);
+     var_dump($choix);
+     $choixarray = $_POST['choix'];
+      for ($i=0; $i < count($choixarray) ; $i++) { 
+        $val=$choixarray[$i];
+       $result = $bdd->prepare('INSERT INTO skills (skill) VALUES ("'.$val.'")'); 
+        $columns = $result->execute();
+        $columns = $result->fetch();
+
+        /* $result = $bdd->prepare('INSERT INTO users_skills (skill_id, user_id) Values ("'.intval($columns["id"]).'","'.$_SESSION["id"].'")'); 
+        $columns = $result->execute();
+        $columns = $result->fetch(); */
+      }
+
+
+      
+    }
+
+
 
 
 

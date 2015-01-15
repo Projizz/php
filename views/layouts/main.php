@@ -14,9 +14,9 @@
           </div>
           <?php 
 
-if ($flash['erreur']): ?>
-            <p class="alert alert-error">
-              <?php echo $flash['erreur']; ?>
+if ($flash['error']): ?>
+            <p class="alert alert-success">
+              <?php echo $flash['error']; ?>
             </p>
           <?php endif ;
 if ($flash['success']): ?>

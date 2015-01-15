@@ -34,33 +34,36 @@ class Project {
 
 static function create_project($title_ins, $type_ins, $urgency_ins, $city_ins, $monney_ins, $description_ins) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  if (isset($_POST["title"]) && isset($_POST["type"]) && isset($_POST["description"]) && isset($_POST["city"])){
-    if ($_POST["title"]){
-      $sql_2='SELECT COUNT(*) AS nb, title
-      FROM projects
-      WHERE title = "'.$_POST['title'].'"';
-      $result_2 = $bdd->prepare($sql_2);
-      $columns_2 = $result_2->execute();
-      $columns_2 = $result_2->fetch();
-      $nb_2 = $columns_2['nb'];
-      if ($nb_2 != 1) {
-        $result = $bdd->prepare('INSERT INTO projects (title,type,urgency,city,monney,description) Values ("'.$_POST['title'].'","'.$_POST['type'].'","'.$_POST['urgency'].'","'.$_POST['city'].'","'.$_POST['monney'].'","'.$_POST['description'].'")'); 
-        $columns = $result->execute();
-        $columns = $result->fetch();
+  if (!empty($_POST["title"]) && !empty($_POST["type"]) && !empty($_POST["description"]) && !empty($_POST["city"])){
+    $sql_2='SELECT COUNT(*) AS nb, title
+    FROM projects
+    WHERE title = "'.$_POST['title'].'"';
+    $result_2 = $bdd->prepare($sql_2);
+    $columns_2 = $result_2->execute();
+    $columns_2 = $result_2->fetch();
+    $nb_2 = intval($columns_2['nb']);
+    if ($nb_2 != 1) {
+      $result = $bdd->prepare('INSERT INTO projects (title,type,urgency,city,monney,description) Values ("'.$_POST['title'].'","'.$_POST['type'].'","'.$_POST['urgency'].'","'.$_POST['city'].'","'.$_POST['monney'].'","'.$_POST['description'].'")'); 
+      $columns = $result->execute();
+      $columns = $result->fetch();
 
-        $result = $bdd->prepare('SELECT id FROM projects WHERE title= "'.$_POST['title'].'" ');
-        $res = $result->execute();
-        $res = $result->fetch();
+      $result = $bdd->prepare('SELECT id FROM projects WHERE title= "'.$_POST['title'].'" ');
+      $res = $result->execute();
+      $res = $result->fetch();
 
-        $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($res["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
-        $columns = $result->execute();
-        $columns = $result->fetch(); 
-      }else{
-        echo "<script>alert(\"la variable est nulle\")</script>"; 
-      }
-    }else{
-      echo "<div id=\"erreur_connection_ins\">Please, put a title in the field Title</div>";
+      $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($res["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
+      $columns = $result->execute();
+      $columns = $result->fetch(); 
+
+      return 1;
     }
+    else  {
+      return 2; 
+    }
+
+  }
+  else {
+    return 3;
   }
 }
 
@@ -116,28 +119,28 @@ return $mes_donnees;
 static function display_useradded(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
   if (!isset($_GET['project_id'])) {
-     $res= "SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id IN (SELECT p.id FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' AND leader=1) AND leader=0 AND validation=1";
-  }
-  else{
+   $res= "SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id IN (SELECT p.id FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' AND leader=1) AND leader=0 AND validation=1";
+ }
+ else{
    $res="SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id ='".$_GET['project_id']."' AND leader=0 AND validation=1 ";
  }
-$prepa=$bdd->prepare($res);
-$exec=$prepa->execute(); 
-$mes_donnees=$prepa->fetchAll();
+ $prepa=$bdd->prepare($res);
+ $exec=$prepa->execute(); 
+ $mes_donnees=$prepa->fetchAll();
 
-return $mes_donnees;    
+ return $mes_donnees;    
 }
 
 static function display_demandeprojectjoined(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root',''); 
- 
-  $res= "SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id IN (SELECT project_id FROM projects_users WHERE user_id='".$_SESSION["id"]."' AND leader=1 ) AND leader=0 AND validation=0 ";
+
+  $res= "SELECT * FROM users u INNER JOIN projects_users pu ON u.id=pu.user_id WHERE pu.project_id IN (SELECT project_id FROM projects_users WHERE user_id='".$_SESSION["id"]."' AND leader=1 ) AND leader=0 AND validation=0 INNER JOIN projects pro ON pro.id=pu.project_id ";
 
   $prepa=$bdd->prepare($res);
   $exec=$prepa->execute(); 
   $mes_donnees=$prepa->fetchAll();
 
-return $mes_donnees;    
+  return $mes_donnees;    
 }
 
 static function validate_project($project_id ,$user_id) {
@@ -146,6 +149,7 @@ static function validate_project($project_id ,$user_id) {
     $result = $bdd->prepare('UPDATE projects_users SET validation=1 WHERE user_id= "'.$_POST['user_id_demande'].'" AND project_id="'.$_POST["demande_project_id"].'" '); 
     $columns = $result->execute();
     $columns = $result->fetch(); 
+    return 1;
 
   }
 }

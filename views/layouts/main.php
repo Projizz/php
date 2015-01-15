@@ -13,6 +13,18 @@
             <h1>Projizz <small>Le projet qui jizz</small></h1>
           </div>
           <?php 
+
+if ($flash['erreur']): ?>
+            <p class="alert alert-error">
+              <?php echo $flash['erreur']; ?>
+            </p>
+          <?php endif ;
+if ($flash['success']): ?>
+            <p class="alert alert-success">
+              <?php echo $flash['success']; ?>
+            </p>
+          <?php endif ;
+
             // my view content will be placed here
             echo $yield 
           ?>

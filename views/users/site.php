@@ -25,6 +25,7 @@
           </div></br>
 
           <div id="donnees">
+
 <?php foreach ($this->data['projects'] as $projects): ?>
     <div class="project_div"><div>Titre : 
         <?php echo $projects['title'] ?>

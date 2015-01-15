@@ -1,3 +1,4 @@
+ 
  <div class="row">
         <div class="col-md-6 col-md-offset-3">
         <form class="form-inline text-center" role="form" method="POST" action="">
@@ -11,7 +12,7 @@
             <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
           </div>
           <button type="submit" class="btn btn-default">Se connecter</button>
-          <?php  $flash['erreur']; ?>
+          
         </form>
         </div>
         

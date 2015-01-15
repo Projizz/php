@@ -167,7 +167,9 @@ static function join_project($id_user, $id_project) {
     
     $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.$_POST["id_project"].'","'.$_POST["id_user"].'",0,0)'); 
     $columns = $result->execute();
-    $columns = $result->fetch(); 
+    $columns = $result->fetch();
+
+    return 1;
   }
 }
 

@@ -44,7 +44,7 @@ $app->post('/signup', function () use ($app) {
     $app->redirect($app->urlFor('projects'));
   }
   else{
-    $app->flash('erreur', 'Vous ne remplissez pas les conditions requises');
+    $app->flashNow('erreur', 'Vous ne remplissez pas les conditions requises');
     $app->render(
       'users/signup.php',
       array("isconnected" => $isconnected)
@@ -68,10 +68,24 @@ $app->get('/site', function() use ($app) {
 // ==== REJOINDRE PROJET ====
 $app->post('/site', function () use ($app) {
   $project = Project::join_project($_POST['id_project'], $_POST['id_user']);
-  $app->render(
+  $projects = Project::display_project();
+  if ($project==1){
+    $app->flashNow('success', 'Project Joined ! ');
+    $app->render(
     'users/site.php',
-    array("project" => $project)
+    array("projects" => $projects)
     );
+  }
+  else{
+
+    $app->flashNow('erreur', 'Vous ne remplissez pas les conditions requises');
+    $app->render(
+    'users/site.php',
+    array("projects" => $projects)
+    );
+
+  }
+  
   
 })->name('site_post');
 

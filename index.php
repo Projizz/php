@@ -120,8 +120,25 @@ $app->post('/next', function () use ($app) {
     'users/next.php',
     array("user" => $user)
     );
-  $app->redirect('./site');
+  $app->redirect('./skill');
 })->name('next_post');
+
+
+$app->get('/skill', function () use ($app) {
+  $app->render(
+    'users/skill.php'
+    );
+})->name('skill'); 
+
+
+$app->post('/skill', function () use ($app) {
+  $skill = User::add_skill($_POST['choix']);
+  $app->render(
+    'users/skill.php',
+    array("skill" => $skill)
+    );
+  $app->redirect('./site');
+})->name('skill_post');
 
 
 // ==== Affiche projet de l'utilisateur ====

@@ -61,27 +61,19 @@ class User {
 static function connect_user($mail, $pass) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
 
-/*$requet='SELECT mail, pass
-        FROM users
-        WHERE mail = "'.$_POST['mail'].'"
-        AND pass = "'.$_POST['pass'].'"';
-    $result = $db->prepare($requet);
-    $columns = $result->execute();
-    $columns = $result->fetch();*/
-
-    if (isset($_POST["mail"]) && isset($_POST["pass"])){
-      if ($_POST['mail']!="" && $_POST['pass']!="") {
+    if (isset($mail) && isset($pass)){
+      if ($mail!="" && $pass!="") {
         $sql='SELECT COUNT(*) AS nb, id, pass, mail, last_name, first_name, city, avaibility, furnitures
         FROM users
-        WHERE mail = "'.$_POST['mail'].'"
-        AND pass = "'.$_POST['pass'].'"';
+        WHERE mail = "'.$mail.'"
+        AND pass = "'.$pass.'"';
         $result = $bdd->prepare($sql);
         $columns = $result->execute();
         $columns = $result->fetch();
         $nb = $columns['nb'];
         if ($nb == 1) {
           session_start();
-
+          $_SESSION['mail']=$mail;
           $_SESSION['utilisateur'] = $columns['first_name'].' '.$columns['last_name'];
           $_SESSION['id'] = $columns['id'];
           $_SESSION['city'] = $columns['city'];
@@ -107,16 +99,19 @@ static function connect_user($mail, $pass) {
 
   static function create_user($mail_ins, $pass_ins, $last_name_ins, $first_name_ins) {
     $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-    if (isset($_POST["mail"]) && isset($_POST["pass"])){
-      $result = $bdd->prepare('INSERT INTO users (mail,pass,last_name,first_name) Values ("'.$_POST['mail'].'","'.$_POST['pass'].'","'.$_POST['last_name'].'","'.$_POST['first_name'].'")'); 
+    if (isset($mail_ins) && isset($pass_ins)){
+      $result = $bdd->prepare('INSERT INTO users (mail,pass,last_name,first_name) Values ("'.$mail_ins.'","'.$pass_ins.'","'.$last_name_ins.'","'.$first_name_ins.'")'); 
       $columns = $result->execute();
       $columns = $result->fetch();
 
+      $result2 = $bdd->prepare('SELECT id FROM users WHERE mail= "'.$_SESSION['mail'].'" ');
+      $res2 = $result2->execute();
+      $res2 = $result2->fetch();
 
-      $_SESSION['utilisateur'] = $_POST['first_name'];
-      $_SESSION['id'] = $columns['id'];
+      $_SESSION['utilisateur'] = $first_name_ins;
+      $_SESSION['id'] = $res2['id'];
       $_SESSION['pass'] = $columns['pass'];
-      $_SESSION['mail'] = $_POST['mail'];
+      $_SESSION['mail'] = $mail_ins;
 
 
         //     header('Location: views/users/next.php');
@@ -127,36 +122,35 @@ static function connect_user($mail, $pass) {
 
   static function updateUser($city ,$avaibility, $furnitures, $interests) {
     $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-    if (isset($_POST["city"]) && isset($_POST["avaibility"]) && isset($_POST["furnitures"]) && isset($_POST["interests"])){
+    if (isset($city) && isset($avaibility) && isset($furnitures) && isset($interests)){
       $sql='UPDATE users 
-      SET city="'.$_POST['city'].'",avaibility="'.$_POST['avaibility'].'",interests="'.$_POST['interests'].'",furnitures="'.$_POST['furnitures'].'"
+      SET city="'.$city.'",avaibility="'.$avaibility.'",interests="'.$interests.'",furnitures="'.$furnitures.'"
       WHERE first_name = "'.$_SESSION['utilisateur'].'"';
       $result = $bdd->prepare($sql); 
 
       $columns = $result->execute();
       $columns = $result->fetch();
-      var_dump($_SESSION);
-      echo $sql;
 
     }
   }
 
-  static function add_skill($choix) {
+  static function add_skill($choixarray) {
      $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-       var_dump($_POST);
-       var_dump($choix);
-       $choixarray = $_POST['choix'];
         for ($i=0; $i < count($choixarray) ; $i++) { 
           $val=$choixarray[$i];
-          $result = $bdd->prepare('INSERT INTO skills (skill) VALUES ("'.$val.'")'); 
-          $columns = $result->execute();
-          $columns = $result->fetch();
+          // $result = $bdd->prepare('INSERT INTO skills (skill) VALUES ("'.$val.'")'); 
+          // $columns = $result->execute();
+          // $columns = $result->fetch();
 
           $result = $bdd->prepare('SELECT id FROM skills WHERE skill="'.$val.'" ');
           $res = $result->execute();
           $res = $result->fetch();
 
-          $result = $bdd->prepare('INSERT INTO users_skills (skill_id, user_id) Values ("'.intval($res["id"]).'","'.$_SESSION["id"].'")'); 
+          $result2 = $bdd->prepare('SELECT id FROM users WHERE mail= "'.$_SESSION['mail'].'" ');
+      $res2 = $result2->execute();
+      $res2 = $result2->fetch();
+
+          $result = $bdd->prepare('INSERT INTO users_skills (skill_id, user_id) Values ("'.intval($res["id"]).'","'.$res2["id"].'")'); 
           $columns = $result->execute();
           $columns = $result->fetch(); 
         }       

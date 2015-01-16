@@ -34,26 +34,32 @@ class Project {
 
 static function create_project($title_ins, $type_ins, $urgency_ins, $city_ins, $monney_ins, $description_ins) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  if (!empty($_POST["title"]) && !empty($_POST["type"]) && !empty($_POST["description"]) && !empty($_POST["city"])){
+  if (!empty($title_ins) && !empty($type_ins) && !empty($description_ins) && !empty($city_ins)){
     $sql_2='SELECT COUNT(*) AS nb, title
     FROM projects
-    WHERE title = "'.$_POST['title'].'"';
+    WHERE title = "'.$title_ins.'"';
     $result_2 = $bdd->prepare($sql_2);
     $columns_2 = $result_2->execute();
     $columns_2 = $result_2->fetch();
     $nb_2 = intval($columns_2['nb']);
     if ($nb_2 != 1) {
-      $result = $bdd->prepare('INSERT INTO projects (title,type,urgency,city,monney,description) Values ("'.$_POST['title'].'","'.$_POST['type'].'","'.$_POST['urgency'].'","'.$_POST['city'].'","'.$_POST['monney'].'","'.$_POST['description'].'")'); 
+      $result = $bdd->prepare('INSERT INTO projects (title,type,urgency,city,monney,description) Values ("'.$title_ins.'","'.$type_ins.'","'.$urgency_ins.'","'.$city_ins.'","'.$monney_ins.'","'.$description_ins.'")'); 
       $columns = $result->execute();
       $columns = $result->fetch();
 
-      $result = $bdd->prepare('SELECT id FROM projects WHERE title= "'.$_POST['title'].'" ');
+      $result = $bdd->prepare('SELECT id FROM projects WHERE title= "'.$title_ins.'" ');
       $res = $result->execute();
       $res = $result->fetch();
 
-      $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($res["id"]).'","'.$_POST["id_user_project"].'",1,1)'); 
+      $result2 = $bdd->prepare('SELECT id FROM users WHERE mail= "'.$_SESSION['mail'].'" ');
+      $res2 = $result2->execute();
+      $res2 = $result2->fetch();
+
+      $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.intval($res["id"]).'","'.intval($res2["id"]).'",1,1)'); 
       $columns = $result->execute();
       $columns = $result->fetch(); 
+     
+      
 
       return 1;
     }
@@ -70,10 +76,10 @@ static function create_project($title_ins, $type_ins, $urgency_ins, $city_ins, $
 
 static function update_project($choixproject ,$title_ins, $type_ins, $urgency_ins, $city_ins, $monney_ins, $description_ins) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  if (isset($_POST["title"]) && isset($_POST["type"]) && isset($_POST["description"]) && isset($_POST["city"])){
+  if (isset($title_ins) && isset($type_ins) && isset($description_ins) && isset($city_ins)){
     $result = $bdd->prepare('UPDATE projects 
-      SET title="'.$_POST['title'].'",type="'.$_POST['type'].'",urgency="'.$_POST['urgency'].'",city="'.$_POST['city'].'",monney="'.$_POST['monney'].'",description="'.$_POST['description'].'"
-      WHERE id= "'.$_POST['choixproject'].'" '); 
+      SET title="'.$title_ins.'",type="'.$type_ins.'",urgency="'.$urgency_ins.'",city="'.$city_ins.'",monney="'.$monney_ins.'",description="'.$description_ins.'"
+      WHERE id= "'.$choixproject.'" '); 
     $columns = $result->execute();
     $columns = $result->fetch();
 
@@ -82,6 +88,10 @@ static function update_project($choixproject ,$title_ins, $type_ins, $urgency_in
 
 static function display_project(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+  $result2 = $bdd->prepare('SELECT id FROM users WHERE mail= "'.$_SESSION['mail'].'" ');
+      $res2 = $result2->execute();
+      $res2 = $result2->fetch();
+      $_SESSION["id"]=$res2['id'];
   if (!isset($_GET['type'])) {
     $_GET['type']="non_selected";
   }
@@ -145,8 +155,8 @@ static function display_demandeprojectjoined(){
 
 static function validate_project($project_id ,$user_id) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  if (isset($_POST["demande_project_id"]) && isset($_POST["user_id_demande"])){
-    $result = $bdd->prepare('UPDATE projects_users SET validation=1 WHERE user_id= "'.$_POST['user_id_demande'].'" AND project_id="'.$_POST["demande_project_id"].'" '); 
+  if (isset($project_id) && isset($user_id)){
+    $result = $bdd->prepare('UPDATE projects_users SET validation=1 WHERE user_id= "'.$user_id.'" AND project_id="'.$project_id.'" '); 
     $columns = $result->execute();
     $columns = $result->fetch(); 
     return 1;
@@ -157,6 +167,11 @@ static function validate_project($project_id ,$user_id) {
 
 static function display_my_project(){
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+  $result2 = $bdd->prepare('SELECT id FROM users WHERE mail= "'.$_SESSION['mail'].'" ');
+      $res2 = $result2->execute();
+      $res2 = $result2->fetch();
+      $_SESSION["id"]=$res2['id'];
+
   $res= "SELECT * FROM projects p INNER JOIN projects_users pu ON p.id=pu.project_id WHERE pu.user_id='".$_SESSION["id"]."' AND leader=1 ";
   $prepa=$bdd->prepare($res);
   $exec=$prepa->execute(); 
@@ -166,10 +181,8 @@ static function display_my_project(){
 
 static function join_project($id_user, $id_project) {
   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
-  if (isset($_POST["id_user"]) && isset($_POST["id_project"])){
-    var_dump($_POST["id_project"]);
-    
-    $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.$_POST["id_project"].'","'.$_POST["id_user"].'",0,0)'); 
+  if (isset($id_user) && isset($id_project)){
+    $result = $bdd->prepare('INSERT INTO projects_users (project_id,user_id,leader,validation) Values ("'.$id_project.'","'.$id_user.'",0,0)'); 
     $columns = $result->execute();
     $columns = $result->fetch();
 

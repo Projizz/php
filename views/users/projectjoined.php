@@ -10,9 +10,9 @@
           <form method="GET" id="form"   >
             <label  for="type">Projet joined</label>
             <select name="validate" id="validate" onchange="submit()" >
-              <option name="validate" >selectionner</option>
-              <option name="validate" value="1">valider</option>
-              <option name="validate" value="0">non valider</option>
+              <option name="validate" >Select</option>
+              <option name="validate" value="1">Validated</option>
+              <option name="validate" value="0">Not validated</option>
             </select>
           </form>
           </div></br>

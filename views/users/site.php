@@ -10,16 +10,16 @@
           <form method="GET" id="form"   >
             <label  for="type">Type</label>
             <select name="type" id="type" onchange="submit()" >
-              <option name="type" value="non_selected" selected:selected>Selectionnez</option>
-              <option name="type" value="non_selected" >Tous</option>
-              <option name="type" value="Mecanique">Mecanique</option>
-              <option name="type" value="Informatique">Informatique</option>
+              <option name="type" value="non_selected" selected:selected>Select</option>
+              <option name="type" value="non_selected" >All</option>
+              <option name="type" value="Mechanics">Mechanics</option>
+              <option name="type" value="IT">IT</option>
               <option name="type" value="Construction">Construction</option>
-              <option name="type" value="Immobilier">Immobilier</option>
+              <option name="type" value="Property">Property</option>
               <option name="type" value="Sport">Sport</option>
-              <option name="type" value="Litteraire">Litteraire</option>
-              <option name="type" value="Evenementiel">Evenementiel</option>
-              <option name="type" value="Vidéo">Vid&eacute;o</option>
+              <option name="type" value="Literature">Literature</option>
+              <option name="type" value="Events">Events</option>
+              <option name="type" value="Video">Video</option>
             </select>
           </form>
           </div></br>
@@ -30,16 +30,16 @@
     <div class="project_div"><div>Titre : 
         <?php echo $projects['title'] ?>
         </div>
-    <div>Categorie : 
+    <div>Category : 
         <?php echo $projects['type'] ?>
       </div>
-    <div>Urgence :
+    <div>Urgency :
         <?php echo $projects['urgency'] ?>
         </div>
-    <div>Ville : 
+    <div>City : 
         <?php echo $projects['city'] ?>
         </div>
-    <div>R&eacute;mun&eacute;ration : 
+    <div>Remuneration : 
         <?php echo $projects['monney'] ?>
       </div>
     <div>Description : 
@@ -48,7 +48,7 @@
   <form method="POST" id="form" action="">
             <input type="hidden" value="<?php echo $projects['id']?>" name="id_project">
             <input type="hidden" name="id_user" value="<?php echo($_SESSION["id"]); ?>">
-            <input type="submit" value="rejoindre" name="rejoindre" class="btn btn-default">
+            <input type="submit" value="Join" name="rejoindre" class="btn btn-default">
           </form></div></br>
   <?php endforeach; ?>
 </div>

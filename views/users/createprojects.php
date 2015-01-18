@@ -13,20 +13,20 @@
           <div class="form-group">
             <label for="type">Type</label>
             <select name="type">
-              <option name="type" value="Mecanique">Mecanic</option>
-              <option name="type" value="Informatique">Informatic</option>
+              <option name="type" value="Mechanics">Mechanics</option>
+              <option name="type" value="IT">IT</option>
               <option name="type" value="Construction">Construction</option>
-              <option name="type" value="Immobilier">Immobilier</option>
+              <option name="type" value="Property">Property</option>
               <option name="type" value="Sport">Sport</option>
-              <option name="type" value="Litteraire">Litteraire</option>
-              <option name="type" value="Evenementiel">Evenementiel</option>
-              <option name="type" value="Vidéo">Vid&eacute;o</option>
+              <option name="type" value="Literature">Literature</option>
+              <option name="type" value="Events">Events</option>
+              <option name="type" value="Video">Video</option>
             </select>
           </div></br>
           <div class="form-group">
-            <label for="urgency">Urgency</label>
-            <input type="radio" value="1" name="urgency">Pressing
-            <input type="radio" value="2" checked="checked" name="urgency">No Pressing<br>
+            <label for="urgency">Emergency</label>
+            <input type="radio" value="1" name="urgency">Urgent
+            <input type="radio" value="2" checked="checked" name="urgency">Not Urgent<br>
           </div></br>
           <div class="form-group">
             <label for="city">City</label>
@@ -36,7 +36,7 @@
             <label for="monney">Remuneration :</label>
             <select name="monney">
               <option name="monney" value="aucune">Nothing</option>
-              <option name="monney" value="envisageable">feasible</option>
+              <option name="monney" value="envisageable">Feasible</option>
               <option name="monney" value="remunerer">Remunerate</option>
             </select>
           </div></br>

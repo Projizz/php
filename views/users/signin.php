@@ -18,11 +18,7 @@
             <label class="sr-only" for="last_name">Last Name</label>
             <input type="text" class="form-control" id="last_name" name="last_name" placeholder="last_name">
           </div>
-          <div class="form-group">
-            <label class="sr-only" for="avatar">Avatar</label>
-            <input type="file" class="form-control" id="avatar" name="avatar" placeholder="avatar">
-          </div>
-          <button type="submit" class="btn btn-default">S'inscrire</button>
+          <button type="submit" class="btn btn-default">Sign Up</button>
         </form>
         </div>
       </div>

@@ -10,7 +10,7 @@
         <div class="col-sm-12">
           
           <div class="page-header">
-            <img src="assets/projizz.jpg" alt="projizz icon" >
+            <img src="assets/projizz.jpg" alt="projizz" >
             <!-- <h1>Projizz <small>Le projet qui jizz</small></h1> -->
           </div>
           <?php 

@@ -1,37 +1,37 @@
  <div class="row">
-        <div class="ligne_button">
-         <a href="<?php echo $app->urlFor('createproject'); ?>"> <input type="button" class="btn btn-default" value="Create Project"/></a>
-        </div>
-        <div class="ligne_button">
-         <a href="<?php echo $app->urlFor('site'); ?>"> <input type="button" class="btn btn-default" value="All The Project"/></a>
-        </div>
-        <div class="ligne_button">
-         <a href="<?php echo $app->urlFor('projectjoined'); ?>"> <input type="button" class="btn btn-default" value="Project Joined"/></a>
-        </div>
-        <div class="ligne_button">
-         <a href="<?php echo $app->urlFor('demandeprojectjoined'); ?>"> <input type="button" class="btn btn-default" value="Add Request"/></a>
-        </div>
-        <div class="ligne_button">
-         <a href="<?php echo $app->urlFor('userprojectadded'); ?>"> <input type="button" class="btn btn-default" value="User Added"/></a>
-        </div>
-      </div>
+    <div class="ligne_button">
+       <a href="<?php echo $app->urlFor('createproject'); ?>"> <input type="button" class="btn btn-default" value="Create Project"/></a>
+   </div>
+   <div class="ligne_button">
+       <a href="<?php echo $app->urlFor('site'); ?>"> <input type="button" class="btn btn-default" value="All The Projects"/></a>
+   </div>
+   <div class="ligne_button">
+       <a href="<?php echo $app->urlFor('projectjoined'); ?>"> <input type="button" class="btn btn-default" value="Projects Joined"/></a>
+   </div>
+   <div class="ligne_button">
+       <a href="<?php echo $app->urlFor('demandeprojectjoined'); ?>"> <input type="button" class="btn btn-default" value="Add Requests"/></a>
+   </div>
+   <div class="ligne_button">
+       <a href="<?php echo $app->urlFor('userprojectadded'); ?>"> <input type="button" class="btn btn-default" value="Users Added"/></a>
+   </div>
+</div>
 
  <div class="project_display">
 
 <?php foreach ($this->data['projects'] as $projects): ?>
-    <div class="project_div"><div>Titre :
+    <div class="project_div"><div>Title :
         <?php echo $projects['title'] ?>
         </div>
-    <div>Categorie :
+    <div>Category :
         <?php echo $projects['type'] ?>
        </div>
-    <div>Urgence :
+    <div>Urgency :
         <?php echo $projects['urgency'] ?>
        </div>
-    <div>Ville :
+    <div>City :
         <?php echo $projects['city'] ?>
         </div>
-    <div>R&eacute;mun&eacute;ration : 
+    <div>Remuneration : 
         <?php echo $projects['monney'] ?>
        </div>
     <div>Description : 

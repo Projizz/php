@@ -24,7 +24,7 @@
         <select name="project_id" id="type" onchange="submit()" >
             <option>Choose one</option>
             <?php foreach ($this->data['projects'] as $projects): ?>
-            <option name="project_id" value="<?php echo $projects['id'] ?>"><?php echo $projects['title'] ?></option>
+            <option name="project_id" value="<?php echo $projects['project_id'] ?>"><?php echo $projects['title'] ?></option>
         <?php endforeach; ?> 
     </select>
 </form>

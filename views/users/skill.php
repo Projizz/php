@@ -47,7 +47,7 @@
     <label for="titre">Macanic</label><br>
     <input type="checkbox" name="choix[]" value="car"> Car <br>
     <input type="checkbox" name="choix[]" value="bike"> Bike  <br>
-    <input type="checkbox" name="choix[]" value="trick"> Truck<br></div>
+    <input type="checkbox" name="choix[]" value="truck"> Truck<br></div>
 
 
 

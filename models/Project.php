@@ -190,6 +190,17 @@ static function join_project($id_user, $id_project) {
   }
 }
 
+// static function join_project($id_user, $id_project) {
+//   $bdd = new PDO('mysql:host=localhost;dbname=projizz','root','');
+//   if (isset($id_user) && isset($id_project)){
+//     $result = $bdd->prepare('DELETE FROM `projizz`.`projects_users` WHERE `projects_users`.`id` = 26'); 
+//     $columns = $result->execute();
+//     $columns = $result->fetch();
+
+//     return 1;
+//   }
+// }
+
 }
 ?>
 

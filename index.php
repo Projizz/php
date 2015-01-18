@@ -6,6 +6,7 @@ require 'vendor/autoload.php';
   // require my models
 require 'models/User.php';
 require 'models/Project.php';
+require 'models/Skill.php';
 
   // Slim initialisation
 $app = new \Slim\Slim(array(
@@ -132,7 +133,7 @@ $app->get('/skill', function () use ($app) {
 
 
 $app->post('/skill', function () use ($app) {
-  $skill = User::add_skill($_POST['choix']);
+  $skill = Skill::add_skill($_POST['choix']);
   $app->render(
     'users/skill.php',
     array("skill" => $skill)

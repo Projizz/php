@@ -10,9 +10,9 @@
 
           <div id="donnees">
 <?php foreach ($this->data['projects'] as $projects): ?>
-    <div class="project_div"><div>Mail : 
+    <div class="project_div">
+      <div>Mail : 
         <?php echo $projects['mail'] ?>
-        <?php echo $projects['title'] ?>
         </div>
     <div>First-name : 
         <?php echo $projects['first_name'] ?>

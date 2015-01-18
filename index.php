@@ -72,7 +72,7 @@ $app->get('/site', function() use ($app) {
 })->name('site');
 // ==== REJOINDRE PROJET ====
 $app->post('/site', function () use ($app) {
-  $project = Project::join_project($_POST['id_project'], $_POST['id_user']);
+  $project = Project::join_project($_POST['id_user'], $_POST['id_project']);
   $projects = Project::display_project();
   if ($project==1){
     $app->flashNow('success', 'Message sent to the owner ! ');

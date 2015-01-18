@@ -104,14 +104,17 @@ static function connect_user($mail, $pass) {
       $columns = $result->execute();
       $columns = $result->fetch();
 
+
+$_SESSION['utilisateur'] = $first_name_ins;
+      
+      $_SESSION['pass'] = $columns['pass'];
+      $_SESSION['mail'] = $mail_ins;
+
       $result2 = $bdd->prepare('SELECT id FROM users WHERE mail= "'.$_SESSION['mail'].'" ');
       $res2 = $result2->execute();
       $res2 = $result2->fetch();
 
-      $_SESSION['utilisateur'] = $first_name_ins;
       $_SESSION['id'] = $res2['id'];
-      $_SESSION['pass'] = $columns['pass'];
-      $_SESSION['mail'] = $mail_ins;
 
 
         //     header('Location: views/users/next.php');

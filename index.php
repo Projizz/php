@@ -26,9 +26,13 @@ $view->setTemplatesDirectory('views');
 
 
 $app->get('/', function () use ($app) {
+  session_destroy();
   $app->render(
     'users/accueil.php'
     );
+  if (!empty($_SESSION['mail'])){
+  $app->redirect($app->urlFor('accueil'));
+  }
   })->name('accueil'); // named route so I can use with "urlFor" method
 
 //==== AFFICHE PAGE CONNEXION =====

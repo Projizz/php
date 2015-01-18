@@ -26,7 +26,9 @@
         <?php echo $projects['type'] ?>
        </div>
     <div>Urgency :
-        <?php echo $projects['urgency'] ?>
+        <?php if($projects['urgency']==1){
+          echo('urgent');
+        }else {echo('no urgent');} ?>
        </div>
     <div>City :
         <?php echo $projects['city'] ?>

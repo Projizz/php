@@ -35,9 +35,9 @@
           <div class="form-group">
             <label for="monney">Remuneration :</label>
             <select name="monney">
-              <option name="monney" value="aucune">Nothing</option>
-              <option name="monney" value="envisageable">Feasible</option>
-              <option name="monney" value="remunerer">Remunerate</option>
+              <option name="monney" value="Nothing">Nothing</option>
+              <option name="monney" value="Feasible">Feasible</option>
+              <option name="monney" value="Remunerate">Remunerate</option>
             </select>
           </div></br>
           <input type="hidden" name="id_user_project" value="<?php echo($_SESSION["id"]); ?>">

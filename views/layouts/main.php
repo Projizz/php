@@ -11,10 +11,14 @@
           
           <div class="page-header">
             <img src="assets/projizz.jpg" alt="projizz" >
+<?php if(!empty($_SESSION['mail']) && !empty($_SESSION['utilisateur']) ){ ?>
+      
+         <a href="<?php echo $app->urlFor('accueil'); ?>"> <img src="assets/deconnexion.png" id="deconnexion" alt="deconnexion" ></a>
+        
+      <?php } ?>
             <!-- <h1>Projizz <small>Le projet qui jizz</small></h1> -->
           </div>
-          <?php 
-
+<?php
 if ($flash['error']): ?>
             <p class="alert alert-success">
               <?php echo $flash['error']; ?>

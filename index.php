@@ -186,7 +186,7 @@ $app->get('/createproject', function () use ($app) {
 // ==== CREER PROJET ====
 $app->post('/createproject', function () use ($app) {
     
-  $user = Project::create_project($_POST['title'], $_POST['monney'], $_POST['urgency'], $_POST['type'], $_POST['city'], $_POST['description']);
+  $user = Project::create_project($_POST['title'], $_POST['type'], $_POST['urgency'], , $_POST['city'],$_POST['monney'], $_POST['description']);
   if ($user == 1){
     $app->flash('success','Your project has been saved');
      $app->render(

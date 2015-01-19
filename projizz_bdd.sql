@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 18 Janvier 2015 à 23:03
+-- Généré le :  Lun 19 Janvier 2015 à 09:28
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -42,11 +42,11 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 INSERT INTO `projects` (`id`, `title`, `type`, `urgency`, `city`, `monney`, `description`) VALUES
-(49, 'Car Porn Design', 'Nothing', 2, 'Mechanics', 'Pau', 'Painting Car, 80''s design'),
-(50, 'Reprogram PCM', 'Feasible', 2, 'Mechanics', 'Pau', 'Reprogram puce, increased performance'),
-(51, 'My Resume', 'Remunerate', 1, 'IT', 'Bordeaux', 'Create Web App, Cv online ease to use , connect with linkedin'),
-(52, 'Projizz', 'Remunerate', 2, 'IT', 'Cenon', 'Recruitment for your projects, Unity makes strength'),
-(53, 'Aperitif', 'Nothing', 1, 'Events', 'Margaux', 'Cost of Entry: One sausage');
+(49, 'Car Porn Design', 'Mechanics', 2, 'Pau', 'Nothing', 'Painting Car, 80''s design'),
+(50, 'Reprogram PCM', 'Mechanics', 2, 'Pau', 'Feasible', 'Reprogram puce, increased performance'),
+(51, 'My Resume', 'IT', 1, 'Bordeaux', 'Remunerate', 'Create Web App, Cv online ease to use , connect with linkedin'),
+(52, 'Projizz', 'IT', 2, 'Cenon', 'Remunerate', 'Recruitment for your projects, Unity makes strength'),
+(53, 'Aperitif', 'Events', 1, 'Margaux', 'Nothing', 'Cost of Entry: One sausage');
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `projects_users` (
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=70 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=72 ;
 
 --
 -- Contenu de la table `projects_users`
@@ -74,7 +74,8 @@ INSERT INTO `projects_users` (`id`, `project_id`, `user_id`, `leader`, `validati
 (66, 50, 8, 1, 1),
 (67, 51, 11, 1, 1),
 (68, 52, 11, 1, 1),
-(69, 53, 12, 1, 1);
+(69, 53, 12, 1, 1),
+(71, 49, 12, 0, 1);
 
 -- --------------------------------------------------------
 
